@@ -1,6 +1,7 @@
 <div class="desktop"  style="overflow: hidden;">
-    <app-window *ngFor="let window of windowsInformation.windows | keyvalue" 
+    <app-window *ngFor="let window of windowsInformation.windows | keyvalue"
         [windowId]="window.key"
+        [ngStyle]="{'z-index':window.value.zIndex}"
         class="window">
     </app-window>
 

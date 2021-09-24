@@ -31,8 +31,9 @@ export class WindowsAPIService {
       relationalY:0,
       focus:false,
       isMouseDown:false,
-      zIndex:0,
+      zIndex:this.information.windows.size+1,
       fullscreen:false,
+      halfscreen:"none",
       hide:false,
       theme:"dark",
       style:{
@@ -40,7 +41,6 @@ export class WindowsAPIService {
         height:"400px",
         top:"0px",
         left:"0px",
-        "z-index":1
       }
     };
     this.information.windows.set(window.windowId,window);
@@ -49,7 +49,13 @@ export class WindowsAPIService {
     this.information.windows.delete(id);
   }
   focusToWindow(windowData:WindowModel){
-
+    var zIndex=windowData.zIndex;
+    this.information.windows.forEach(value => {
+      if(value.zIndex>zIndex){
+        value.zIndex--;
+      }
+    });
+    windowData.zIndex=this.information.windows.size;
   }
   unFocusFromWindow(){
 
@@ -61,7 +67,19 @@ export class WindowsAPIService {
     windowData.style["height"]=window.innerHeight-40+"px";
     windowData.fullscreen=true;
   }
-  moveWindowToHalfscreenById(id:string,side:string){
+  moveWindowToHalfscreen(windowData:WindowModel){
+    if(windowData.halfscreen=="right"){
+      windowData.style.top="0px";
+      windowData.style.height=window.innerHeight+"px";
+      windowData.style.left=this.getScreenWidth()/2+"px";
+      windowData.style.width=this.getScreenWidth()/2+"px";
+    }
+    else if(windowData.halfscreen=="left"){
+      windowData.style.top="0px";
+      windowData.style.height=this.getScreenHeight()+"px";
+      windowData.style.left="0px";
+      windowData.style.width=this.getScreenWidth()/2+"px";
+    }
 
   }
   moveWindowToDefultSize(windowData:WindowModel){

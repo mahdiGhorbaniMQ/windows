@@ -36,6 +36,7 @@ export class WindowsInformationService {
     isMouseDown:false,
     zIndex:0,
     fullscreen:false,
+    halfscreen:"none",
     hide:false,
     theme:"",
     style:{

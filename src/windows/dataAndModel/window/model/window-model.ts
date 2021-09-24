@@ -17,6 +17,7 @@ export interface WindowModel {
     focus:boolean;
     zIndex:number;
     fullscreen:boolean;
+    halfscreen:string;
     isMouseDown:boolean;
     hide:boolean;
     theme:string;

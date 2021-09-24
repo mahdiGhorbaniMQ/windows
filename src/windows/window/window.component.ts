@@ -36,9 +36,12 @@ export class WindowComponent implements OnInit {
     if(this.windowData.fullscreen){
       this.windowsAPI.moveWindowToFullscreen(this.windowData)
     }
+    this.windowsAPI.moveWindowToHalfscreen(this.windowData)
   }
 
   fullscreen(){
+    // this.windowData.halfscreen="right";
+    // this.windowsAPI.moveWindowToHalfscreen(this.windowData)
     if(this.windowData.fullscreen){
       this.windowsAPI.moveWindowToDefultSize(this.windowData);
     }
@@ -48,7 +51,7 @@ export class WindowComponent implements OnInit {
   }
 
   close(){
-    this.windowsAPI.closeWindowById(this.windowId)
+    this.windowsAPI.closeWindowById(this.windowId);
   }
 
   dragWindow($event:any):void{
@@ -88,5 +91,8 @@ export class WindowComponent implements OnInit {
     this.information.isTakenEdgeRight=false;
     this.information.isTakenEdgeTop=false;
     this.information.isTakenEdgeBottom=false;
+  }
+  focus(){
+    this.windowsAPI.focusToWindow(this.windowData);
   }
 }

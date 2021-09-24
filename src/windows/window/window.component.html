@@ -3,10 +3,11 @@
      [ngStyle]="windowData.style"
      (window:resize)="onResize()"
      (mouseup)="releaseEdges($event)"
-     (mousedown)="checkEdges($event)">
+     (mousedown)="checkEdges($event);focus()">
     <div class="window-header">
         <div class="window-name"
             (mousedown)="dragWindow($event)"
+            (dblclick)="fullscreen()"
             (mouseup)="unDragWindow($event)">
             {{windowData.appName}}
         </div>
