@@ -1,0 +1,27 @@
+<div [id]="windowData.windowId" 
+     class="window-container"
+     [ngStyle]="windowData.style"
+     (window:resize)="onResize()"
+     (mouseup)="releaseEdges($event)"
+     (mousedown)="checkEdges($event)">
+    <div class="window-header">
+        <div class="window-name"
+            (mousedown)="dragWindow($event)"
+            (mouseup)="unDragWindow($event)">
+            {{windowData.appName}}
+        </div>
+        <div class="window-button-grup">
+            <button class="hide-button">-</button>
+            <button class="fullscreen-button" (click)="fullscreen()">#</button>
+            <button class="close-button" (click)="close()">x</button>
+        </div>
+    </div>
+    <div class="window-body" [ngSwitch]="''">
+        <div *ngSwitchCase="'1'" class="application"></div>
+        <div *ngSwitchCase="'2'" class="application"></div>
+        <div *ngSwitchCase="'3'" class="application"></div>
+        <div *ngSwitchCase="'4'" class="application"></div>
+        <div *ngSwitchCase="'5'" class="application"></div>
+        <div *ngSwitchCase="'6'" class="application"></div>
+    </div>
+</div>

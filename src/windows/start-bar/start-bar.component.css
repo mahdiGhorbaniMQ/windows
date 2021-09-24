@@ -1,0 +1,12 @@
+.start-bar{
+    position: absolute;
+    left: 0;
+    top: 40px;
+    bottom: 0;
+    width: 105px;
+    background-color: rgb(75, 73, 73);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

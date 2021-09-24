@@ -1,0 +1,6 @@
+<div class="start-bar">
+    <app-start-item *ngFor="let item of startItems" 
+        [startItemId]="item.startItemId"
+        (dblclick)="openWindow(item.appName)">
+    </app-start-item>
+</div>

@@ -1,0 +1,28 @@
+.windows-header-container{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 40px;
+    background-color: darkseagreen;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(51, 49, 49);
+    color: white;
+}
+.activities{
+    text-align: center;
+    width: 105px;
+}
+.appName{
+    flex-grow: 1;
+}
+.date{
+    flex-grow: 4;
+    text-align: center;
+}
+.settings{
+    flex-grow: 1;
+    text-align: right;
+}

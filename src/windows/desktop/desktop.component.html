@@ -1,0 +1,13 @@
+<div class="desktop"  style="overflow: hidden;">
+    <app-window *ngFor="let window of windowsInformation.windows | keyvalue" 
+        [windowId]="window.key"
+        class="window">
+    </app-window>
+
+    <div class="shortcut-container">
+        <app-shortcut *ngFor="let shortcut of shortcuts" 
+            [shortcutId]="shortcut.shortcutId"
+            (dblclick)="openWindow(shortcut.appName)">
+        </app-shortcut>
+    </div>
+</div>

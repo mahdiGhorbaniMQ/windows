@@ -1,0 +1,15 @@
+.window-container{
+    position: relative;
+    background-color: dodgerblue;
+    z-index: 100;
+}
+.application{
+    position: relative;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+.window-header{
+    display: flex;
+}

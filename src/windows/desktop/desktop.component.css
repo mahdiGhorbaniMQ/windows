@@ -1,0 +1,19 @@
+.desktop{
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    left: 105px;
+    background-color: rgb(112, 108, 153);
+}
+.window{
+    position: absolute;
+    width: 0;
+    height: 0;
+    z-index: 1;
+}
+.shortcut-container{
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+}
