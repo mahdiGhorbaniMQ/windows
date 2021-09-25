@@ -20,6 +20,9 @@ export interface WindowModel {
     halfscreen:string;
     isMouseDown:boolean;
     hide:boolean;
+    display:boolean;
     theme:string;
-    style:WindowStyleModel
+    style:WindowStyleModel;
+    showHintWindow:boolean;
+    hintWindowStatus:string;
 }

@@ -8,6 +8,7 @@ import { StartBarComponent } from './start-bar/start-bar.component';
 import { HeaderComponent } from './header/header.component';
 import { WindowsModuleBaseComponent } from './windowsmodule-base/windows-module-base.component';
 import { StartItemComponent } from './start-item/start-item.component';
+import { ActivitiesComponent } from './activities/activities.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { StartItemComponent } from './start-item/start-item.component';
     StartBarComponent,
     HeaderComponent,
     WindowsModuleBaseComponent,
-    StartItemComponent
+    StartItemComponent,
+    ActivitiesComponent
   ],
   imports: [
     CommonModule

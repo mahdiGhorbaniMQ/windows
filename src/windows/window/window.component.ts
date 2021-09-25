@@ -54,6 +54,11 @@ export class WindowComponent implements OnInit {
     this.windowsAPI.closeWindowById(this.windowId);
   }
 
+  hideWindow(){
+    this.windowsAPI.hideWindow(this.windowData);
+    this.windowData.hide=true;
+  }
+
   dragWindow($event:any):void{
     if(this.information.windowEdgeTaken==undefined){
       this.information.dragingWindow=this.windowData;

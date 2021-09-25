@@ -4,4 +4,15 @@
     background-color: white;
     margin: 10px;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+.pointer{
+    background-color: rgb(205, 118, 92);
+    margin: 3px;
+    position: relative;
+    left: -15px;
+    width: 8px;
+    height: 8px;
+    border-radius: 10px;
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { StartItemsInformationService } from '../../startItem/information/start-items-information.service';
 import { WindowsInformationService } from '../information/windows-information.service';
 import { WindowModel } from '../model/window-model';
 
@@ -7,7 +8,8 @@ import { WindowModel } from '../model/window-model';
 })
 export class WindowsAPIService {
 
-  constructor(private information:WindowsInformationService){}
+  constructor(private information:WindowsInformationService,
+              private startItemInformation:StartItemsInformationService){}
 
   getWindowById(id:string):any{
     if(this.information.windows.get(id)){
@@ -35,7 +37,10 @@ export class WindowsAPIService {
       fullscreen:false,
       halfscreen:"none",
       hide:false,
+      display:true,
       theme:"dark",
+      showHintWindow:false,
+      hintWindowStatus:"",
       style:{
         width:"320px",
         height:"400px",
@@ -43,10 +48,21 @@ export class WindowsAPIService {
         left:"0px",
       }
     };
+    this.startItemInformation.openWindows.get(appName)?.push(window)  
     this.information.windows.set(window.windowId,window);
   }
   closeWindowById(id:string){
+    this.removeFromOpenWindows(this.information.windows.get(id)!);
     this.information.windows.delete(id);
+  }
+  removeFromOpenWindows(windowData:WindowModel){
+    var openWindows=this.startItemInformation.openWindows.get(windowData.appName)!;
+    openWindows.forEach((element,index) => {
+      if(element==windowData){
+        openWindows.splice(index,1);
+        return;
+      }      
+    });
   }
   focusToWindow(windowData:WindowModel){
     var zIndex=windowData.zIndex;
@@ -89,11 +105,12 @@ export class WindowsAPIService {
     windowData.style["height"]=windowData.height+"px";
     windowData.fullscreen=false;
   }
-  hideWindowById(id:string){
-
+  hideWindow(windowData:WindowModel){
+    windowData.display=false;
   }
-  showWindowById(id:string){
-
+  showWindow(windowData:WindowModel){
+    windowData.display=true;
+    this.focusToWindow(windowData)
   }
   moveWindowEdgeToMouseCordinate($event:any){
     var window=this.information.windowEdgeTaken;
@@ -160,10 +177,36 @@ export class WindowsAPIService {
     this.moveWindowToDefultSize(windowData);
     windowData.x=xMouse-xTaken!;
     windowData.y=yMouse-yTaken!;
-    if(windowData.x>this.getScreenWidth()-windowData.width){windowData.x=this.getScreenWidth()-windowData.width}
-    if(windowData.x<0){windowData.x=0;}
-    if(windowData.y>this.getScreenHeight()-windowData.height){windowData.y=this.getScreenHeight()-windowData.height}
-    if(windowData.y<0){windowData.y=0;}
+    if(windowData.x>this.getScreenWidth()-windowData.width){
+      windowData.x=this.getScreenWidth()-windowData.width
+      windowData.showHintWindow=true;
+      windowData.hintWindowStatus="right";
+      this.information.showHintWindow=windowData.windowId;
+      this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":this.getScreenWidth()/2+"px","width":this.getScreenWidth()/2+"px"};
+    }
+    else if(windowData.x<0){
+      windowData.x=0;
+      windowData.showHintWindow=true;
+      windowData.hintWindowStatus="left"
+      this.information.showHintWindow=windowData.windowId;
+      this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":0,"width":this.getScreenWidth()/2+"px"};
+    }
+    else if(windowData.y<0){
+      windowData.y=0;
+      windowData.showHintWindow=true;
+      windowData.hintWindowStatus="full"
+      this.information.showHintWindow=windowData.windowId;
+      this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":0,"width":this.getScreenWidth()+"px"};
+    }
+    else{
+      windowData.showHintWindow=false;
+      windowData.hintWindowStatus=""
+      this.information.showHintWindow=undefined;
+      this.information.hintWindowStyle={};
+    }
+    if(windowData.y>this.getScreenHeight()-windowData.height){
+      windowData.y=this.getScreenHeight()-windowData.height
+    }
     windowData.relationalX=windowData.x/this.getScreenWidth();
     windowData.relationalY=windowData.y/this.getScreenHeight();
     windowData.style.left=windowData.x+"px"

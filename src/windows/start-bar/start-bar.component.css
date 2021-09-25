@@ -2,11 +2,47 @@
     position: absolute;
     left: 0;
     top: 40px;
-    bottom: 0;
+    bottom: 105px;
     width: 105px;
     background-color: rgb(75, 73, 73);
     overflow: auto;
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+.showAllApp-button{
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 105px;
+    height: 105px;
+    background-color: rgb(75, 73, 73);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:0px -5px 5px rgb(51, 50, 50);
+}
+.showAllApp-button:hover{
+    background-color: rgba(49, 47, 47, 0.781);
+}
+.appsContainer{
+    position: absolute;
+    left: 110px;
+    width: 200px;
+    max-height: 200px;
+    overflow: auto;
+    background-color: rgb(78, 77, 77);
+    z-index: 20000;
+}
+.app{
+    text-align: center;
+}
+.app p{
+    margin: 0;
+    padding: 10px;
+}
+.app:hover{
+    background-color: rgb(110, 108, 108);
+    text-align: center;
 }

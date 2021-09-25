@@ -14,6 +14,9 @@ export class WindowsInformationService {
 
   windowEdgeTaken?:WindowModel=undefined;
 
+  hintWindowStyle={};
+  showHintWindow?:string=undefined;
+
   dragingWindow?:WindowModel=undefined;
   isTakenEdgeLeft:boolean=false;
   isTakenEdgeRight:boolean=false;
@@ -38,7 +41,10 @@ export class WindowsInformationService {
     fullscreen:false,
     halfscreen:"none",
     hide:false,
+    display:true,
     theme:"",
+    showHintWindow:false,
+    hintWindowStatus:"",
     style:{
       width:"320px",
       height:"400px",

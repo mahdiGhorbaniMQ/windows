@@ -1,6 +1,22 @@
 <div class="start-bar">
-    <app-start-item *ngFor="let item of startItems" 
-        [startItemId]="item.startItemId"
-        (dblclick)="openWindow(item.appName)">
+    <app-start-item *ngFor="let item of startItemInformation.startItems | keyvalue" 
+                    [startItemId]="item.key"
+                    (click)="showOpenWindows(item.value)"
+                    (dblclick)="openWindow(item.value)">
     </app-start-item>
+</div>
+<div class="showAllApp-button"
+     (click)="showAllApps()">
+    <div>all apps</div>
+</div>
+<div class="appsContainer"
+     [ngStyle]="{'top': startItemInformation.selectedItemIndex*60+60+'px'}"
+     *ngIf="startItemInformation.showOpenWindows">
+    <div class="app"
+         (mouseenter)="showWindow(window)"
+         (mouseleave)="hideWindow(window)"
+         (click)="selectWindow(window)"
+         *ngFor="let window of startItemInformation.openWindows.get(startItemInformation.selectedItem)">
+         <p>{{window.appName}}</p>
+    </div>
 </div>

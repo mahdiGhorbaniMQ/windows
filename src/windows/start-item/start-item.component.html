@@ -1,1 +1,11 @@
-<div class="start-item"></div>
+<div class="start-item">
+    <div *ngIf="openWindows.length<=4" class="pointer-container">
+        <div class="pointer" *ngFor="let window of openWindows"></div>
+    </div>
+    <div *ngIf="openWindows.length>4" class="pointer-container">
+        <div class="pointer"></div>
+        <div class="pointer"></div>
+        <div class="pointer"></div>
+        <div class="pointer"></div>
+    </div>
+</div>

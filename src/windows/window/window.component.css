@@ -13,3 +13,33 @@
 .window-header{
     display: flex;
 }
+.halfscreen-hint-right{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: gray;
+    opacity: 0.8;
+
+}
+.halfscreen-hint-left{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: gray;
+    opacity: 0.8;
+}
+.fullscreen-hint{
+    width: 100%;
+    left: 0;
+
+}
+.hint-window{
+    position: absolute;
+    top: 0;
+    background-color: gray;
+    opacity: 0.8;
+}

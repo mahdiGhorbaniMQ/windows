@@ -1,0 +1,8 @@
+<div *ngIf="desktopInformation.showWindows"  class="windows-container">
+      <div *ngFor="let window of windowsInformation.windows | keyvalue" class="windows">
+      </div>
+</div>
+<div *ngIf="desktopInformation.showApplications" class="applicarion-container">
+      <div *ngFor="let application of applicationsInformation.apps" class="applicarion">
+      </div>
+</div>
