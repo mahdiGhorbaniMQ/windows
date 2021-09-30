@@ -105,6 +105,35 @@ export class WindowsAPIService {
     windowData.style["height"]=windowData.height+"px";
     windowData.fullscreen=false;
   }
+  handleHintWindow(){
+    var windowData=this.information.windows.get(this.information.showHintWindow!)!
+    if(this.information.showHintWindow!=undefined){
+      windowData.showHintWindow=false;
+      this.information.hintWindowStyle={};
+      this.information.showHintWindow=undefined;
+      if(windowData.hintWindowStatus=="right"){
+        windowData.halfscreen="right";
+        this.moveWindowToHalfscreen(windowData)
+      }
+      else if(windowData.hintWindowStatus=="left"){
+        windowData.halfscreen="left";
+        this.moveWindowToHalfscreen(windowData)
+      }
+      else if(windowData.hintWindowStatus=="full"){
+        windowData.fullscreen=true;
+        this.moveWindowToFullscreen(windowData)
+      }
+      windowData.hintWindowStatus="";
+    }
+  }
+  releaseSelectingWindowOptions(){
+    this.information.dragingWindow=undefined;
+    this.information.windowEdgeTaken=undefined;
+    this.information.isTakenEdgeLeft=false;
+    this.information.isTakenEdgeRight=false;
+    this.information.isTakenEdgeTop=false;
+    this.information.isTakenEdgeBottom=false;
+  }
   hideWindow(windowData:WindowModel){
     windowData.display=false;
   }
@@ -113,104 +142,113 @@ export class WindowsAPIService {
     this.focusToWindow(windowData)
   }
   moveWindowEdgeToMouseCordinate($event:any){
-    var window=this.information.windowEdgeTaken;
-    var mouseX=$event.pageX-105;
-    var mouseY=$event.pageY-40;
+    if(this.information.windowEdgeTaken!=undefined){
 
-    if(this.information.isTakenEdgeLeft && window!.width+window!.x-mouseX>320){
-      if(mouseX<0){
-        window!.width=window!.width+window!.x;
-        window!.x=0;
+      var window=this.information.windowEdgeTaken;
+      var mouseX=$event.pageX-105;
+      var mouseY=$event.pageY-40;
+
+      if(this.information.isTakenEdgeLeft && window!.width+window!.x-mouseX>320){
+        if(mouseX<0){
+          window!.width=window!.width+window!.x;
+          window!.x=0;
+        }
+        else{
+          window!.width=window!.width+window!.x-mouseX;
+          window!.x=mouseX;
+        }
+        window!.relationalX=window!.x/this.getScreenWidth();
+        window!.relationalWidth=window!.width/this.getScreenWidth();
+        window!.style.left=window!.x+"px";
+        window!.style.width=window!.width+"px";
       }
-      else{
-        window!.width=window!.width+window!.x-mouseX;
-        window!.x=mouseX;
+      if(this.information.isTakenEdgeRight && mouseX-window!.x>320){
+        if(mouseX>this.getScreenWidth()){
+          window!.width=this.getScreenWidth()-window!.x;
+        }
+        else{
+          window!.width=mouseX-window!.x;
+        }
+        window!.relationalX=window!.x/this.getScreenWidth();
+        window!.relationalWidth=window!.width/this.getScreenWidth();
+        window!.style.width=window!.width+"px";
       }
-      window!.relationalX=window!.x/this.getScreenWidth();
-      window!.relationalWidth=window!.width/this.getScreenWidth();
-      window!.style.left=window!.x+"px";
-      window!.style.width=window!.width+"px";
-    }
-    if(this.information.isTakenEdgeRight && mouseX-window!.x>320){
-      if(mouseX>this.getScreenWidth()){
-        window!.width=this.getScreenWidth()-window!.x;
+      if(this.information.isTakenEdgeTop && window!.height+window!.y-mouseY>400){
+        if(mouseY<0){
+          window!.height=window!.height+window!.y;
+          window!.y=0;
+        }
+        else{
+          window!.height=window!.height+window!.y-mouseY;
+          window!.y=mouseY;
+        }
+        window!.relationalY=window!.y/this.getScreenHeight();
+        window!.relationalHeight=window!.height/this.getScreenHeight();
+        window!.style.top=window!.y+"px";
+        window!.style.height=window!.height+"px";
       }
-      else{
-        window!.width=mouseX-window!.x;
+      if(this.information.isTakenEdgeBottom && mouseY-window!.y>400){
+        if(mouseY>this.getScreenHeight()){
+          window!.height=this.getScreenHeight()-window!.y;
+        }
+        else{
+          window!.height=mouseY-window!.y;
+        }
+        window!.relationalY=window!.y/this.getScreenHeight();
+        window!.relationalHeight=window!.height/this.getScreenHeight();
+        window!.style.height=window!.height+"px";
       }
-      window!.relationalX=window!.x/this.getScreenWidth();
-      window!.relationalWidth=window!.width/this.getScreenWidth();
-      window!.style.width=window!.width+"px";
-    }
-    if(this.information.isTakenEdgeTop && window!.height+window!.y-mouseY>400){
-      if(mouseY<0){
-        window!.height=window!.height+window!.y;
-        window!.y=0;
-      }
-      else{
-        window!.height=window!.height+window!.y-mouseY;
-        window!.y=mouseY;
-      }
-      window!.relationalY=window!.y/this.getScreenHeight();
-      window!.relationalHeight=window!.height/this.getScreenHeight();
-      window!.style.top=window!.y+"px";
-      window!.style.height=window!.height+"px";
-    }
-    if(this.information.isTakenEdgeBottom && mouseY-window!.y>400){
-      if(mouseY>this.getScreenHeight()){
-        window!.height=this.getScreenHeight()-window!.y;
-      }
-      else{
-        window!.height=mouseY-window!.y;
-      }
-      window!.relationalY=window!.y/this.getScreenHeight();
-      window!.relationalHeight=window!.height/this.getScreenHeight();
-      window!.style.height=window!.height+"px";
     }
   }
-  moveWindowTakenCordinateToMouseCordinate(windowData:WindowModel,$event:any){
-    var xTaken=windowData.xTaken;
-    var yTaken=windowData.yTaken;
-    var xMouse=$event.x-105;
-    var yMouse=$event.y-40;
-    
-    this.moveWindowToDefultSize(windowData);
-    windowData.x=xMouse-xTaken!;
-    windowData.y=yMouse-yTaken!;
-    if(windowData.x>this.getScreenWidth()-windowData.width){
-      windowData.x=this.getScreenWidth()-windowData.width
-      windowData.showHintWindow=true;
-      windowData.hintWindowStatus="right";
-      this.information.showHintWindow=windowData.windowId;
-      this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":this.getScreenWidth()/2+"px","width":this.getScreenWidth()/2+"px"};
+  moveWindowTakenCordinateToMouseCordinate($event:any){
+    if(this.information.dragingWindow!=undefined){
+
+      var windowData = this.information.dragingWindow!;
+      var xTaken=windowData.xTaken;
+      var yTaken=windowData.yTaken;
+      var xMouse=$event.x-105;
+      var yMouse=$event.y-40;
+      
+      this.moveWindowToDefultSize(windowData);
+      
+      windowData.x=xMouse-xTaken!;
+      windowData.y=yMouse-yTaken!;
+      
+      if(windowData.x>this.getScreenWidth()-windowData.width){
+        windowData.x=this.getScreenWidth()-windowData.width
+        windowData.showHintWindow=true;
+        windowData.hintWindowStatus="right";
+        this.information.showHintWindow=windowData.windowId;
+        this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":this.getScreenWidth()/2+"px","width":this.getScreenWidth()/2+"px"};
+      }
+      else if(windowData.x<0){
+        windowData.x=0;
+        windowData.showHintWindow=true;
+        windowData.hintWindowStatus="left"
+        this.information.showHintWindow=windowData.windowId;
+        this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":0,"width":this.getScreenWidth()/2+"px"};
+      }
+      else if(windowData.y<0){
+        windowData.y=0;
+        windowData.showHintWindow=true;
+        windowData.hintWindowStatus="full"
+        this.information.showHintWindow=windowData.windowId;
+        this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":0,"width":this.getScreenWidth()+"px"};
+      }
+      else{
+        windowData.showHintWindow=false;
+        windowData.hintWindowStatus=""
+        this.information.showHintWindow=undefined;
+        this.information.hintWindowStyle={};
+      }
+      if(windowData.y>this.getScreenHeight()-windowData.height){
+        windowData.y=this.getScreenHeight()-windowData.height
+      }
+      windowData.relationalX=windowData.x/this.getScreenWidth();
+      windowData.relationalY=windowData.y/this.getScreenHeight();
+      windowData.style.left=windowData.x+"px";
+      windowData.style.top=windowData.y+"px";
     }
-    else if(windowData.x<0){
-      windowData.x=0;
-      windowData.showHintWindow=true;
-      windowData.hintWindowStatus="left"
-      this.information.showHintWindow=windowData.windowId;
-      this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":0,"width":this.getScreenWidth()/2+"px"};
-    }
-    else if(windowData.y<0){
-      windowData.y=0;
-      windowData.showHintWindow=true;
-      windowData.hintWindowStatus="full"
-      this.information.showHintWindow=windowData.windowId;
-      this.information.hintWindowStyle={"height":this.getScreenHeight()+"px","left":0,"width":this.getScreenWidth()+"px"};
-    }
-    else{
-      windowData.showHintWindow=false;
-      windowData.hintWindowStatus=""
-      this.information.showHintWindow=undefined;
-      this.information.hintWindowStyle={};
-    }
-    if(windowData.y>this.getScreenHeight()-windowData.height){
-      windowData.y=this.getScreenHeight()-windowData.height
-    }
-    windowData.relationalX=windowData.x/this.getScreenWidth();
-    windowData.relationalY=windowData.y/this.getScreenHeight();
-    windowData.style.left=windowData.x+"px"
-    windowData.style.top=windowData.y+"px"
   }
   generateWindowId():string{
     this.information.idCounter++;

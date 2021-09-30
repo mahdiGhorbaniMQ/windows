@@ -13,14 +13,13 @@ export class StartItemComponent implements OnInit {
 
   openWindows:WindowModel[]=[];
   startItemData!:StartItemModel;
-  constructor(private windowsInformation:WindowsInformationService,
-              public startItemsInformation:StartItemsInformationService,) { }
+  constructor(public startItemsInformation:StartItemsInformationService) { }
 
   @Input("startItemId") startItemId!:string;
 
   ngOnInit(): void {
     this.startItemData = this.getStartItem();
-    this.openWindows= this.getOpenWindows();
+    this.openWindows = this.getOpenWindows();
   }
 
 

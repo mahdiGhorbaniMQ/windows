@@ -10,45 +10,17 @@ import { WindowsAPIService } from '../dataAndModel/window/windowsAPI/windows-api
 })
 export class WindowsModuleBaseComponent implements OnInit {
 
-  constructor(private windowInformation:WindowsInformationService,
-              private windowsAPI:WindowsAPIService) { }
+  constructor(private windowsAPI:WindowsAPIService) { }
 
   ngOnInit(): void {
   }
 
   onMouseMove($event:any){
-    if(this.windowInformation.dragingWindow!=undefined){
-      this.windowsAPI.moveWindowTakenCordinateToMouseCordinate(this.windowInformation.dragingWindow,$event);
-    }
-    if(this.windowInformation.windowEdgeTaken!=undefined){
-      this.windowsAPI.moveWindowEdgeToMouseCordinate($event);
-    }
+    this.windowsAPI.moveWindowTakenCordinateToMouseCordinate($event);
+    this.windowsAPI.moveWindowEdgeToMouseCordinate($event);
   }
   onMouseUp($event:any){
-    this.windowInformation.dragingWindow=undefined;
-    this.windowInformation.windowEdgeTaken=undefined;
-    this.windowInformation.isTakenEdgeLeft=false;
-    this.windowInformation.isTakenEdgeRight=false;
-    this.windowInformation.isTakenEdgeTop=false;
-    this.windowInformation.isTakenEdgeBottom=false;
-    if(this.windowInformation.showHintWindow!=undefined){
-      var windowData = this.windowInformation.windows.get(this.windowInformation.showHintWindow)!;
-      windowData.showHintWindow=false;
-      this.windowInformation.hintWindowStyle={};
-      this.windowInformation.showHintWindow=undefined;
-      if(windowData.hintWindowStatus=="right"){
-        windowData.halfscreen="right";
-        this.windowsAPI.moveWindowToHalfscreen(windowData)
-      }
-      else if(windowData.hintWindowStatus=="left"){
-        windowData.halfscreen="left";
-        this.windowsAPI.moveWindowToHalfscreen(windowData)
-      }
-      else if(windowData.hintWindowStatus=="full"){
-        windowData.fullscreen=true;
-        this.windowsAPI.moveWindowToFullscreen(windowData)
-      }
-      windowData.hintWindowStatus="";
-    }
+    this.windowsAPI.releaseSelectingWindowOptions();
+    this.windowsAPI.handleHintWindow();
   }
 }

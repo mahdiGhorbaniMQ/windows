@@ -10,13 +10,11 @@ import { WindowsAPIService } from '../dataAndModel/window/windowsAPI/windows-api
   styleUrls: ['./start-bar.component.css']
 })
 export class StartBarComponent implements OnInit {
-  // startItems:StartItemModel[]=[];
 
   constructor(public startItemInformation:StartItemsInformationService,
               private windowsAPI:WindowsAPIService) { }
 
   ngOnInit(): void {
-    // this.startItems=this.startItemInformation.startItems;
   }
   openWindow(startItemData:StartItemModel){
     if(!this.startItemInformation.showOpenWindows &&
@@ -32,11 +30,15 @@ export class StartBarComponent implements OnInit {
   }
   showOpenWindows(startItemData:StartItemModel){
     if(!this.startItemInformation.showOpenWindows &&
-       (this.startItemInformation.openWindows.get(startItemData.appName)!.length>1 ||
-       this.startItemInformation.openWindows.get(startItemData.appName)![0].hide)){ 
+       this.startItemInformation.openWindows.get(startItemData.appName)!.length>1){ 
         this.startItemInformation.showOpenWindows=true;
         this.startItemInformation.selectedItem=startItemData.appName;
         this.startItemInformation.selectedItemIndex=Number(startItemData.startItemId);
+    }
+    else if(!this.startItemInformation.showOpenWindows &&
+            this.startItemInformation.openWindows.get(startItemData.appName)![0].hide){
+      this.showWindow(this.startItemInformation.openWindows.get(startItemData.appName)![0])
+      this.selectWindow(this.startItemInformation.openWindows.get(startItemData.appName)![0]);
     }
     else if(this.startItemInformation.showOpenWindows){
       this.startItemInformation.showOpenWindows=false;
