@@ -62,6 +62,7 @@ export class WindowComponent implements OnInit {
   dragWindow($event:any):void{
     if(this.information.windowEdgeTaken==undefined){
       this.information.dragingWindow=this.windowData;
+      this.windowsAPI.moveWindowToDefultSize(this.windowData);
       this.windowData.xTaken=$event.offsetX;
       this.windowData.yTaken=$event.offsetY;
     }
@@ -80,7 +81,7 @@ export class WindowComponent implements OnInit {
         this.information.isTakenEdgeLeft=true;
         this.information.windowEdgeTaken=this.windowData;
       }
-      if($event.offsetY>this.windowData.height-10){
+      if($event.pageY>this.windowData.height-10){
         this.information.isTakenEdgeBottom=true;
         this.information.windowEdgeTaken=this.windowData;
       }

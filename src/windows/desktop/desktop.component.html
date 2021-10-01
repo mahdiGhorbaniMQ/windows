@@ -7,11 +7,13 @@
     </app-window>
 
     <div class="shortcut-container">
-        <app-shortcut *ngFor="let shortcut of shortcuts" 
+        <app-shortcut class="shortcut"
+            *ngFor="let shortcut of shortcuts" 
             [shortcutId]="shortcut.shortcutId"
             (dblclick)="openWindow(shortcut.appName)">
 
         </app-shortcut>
+
     </div>
     
     <app-activities class="activities"

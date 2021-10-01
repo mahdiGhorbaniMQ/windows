@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HeaderInformationService } from '../../header/information/header-information.service';
 import { StartItemsInformationService } from '../../startItem/information/start-items-information.service';
 import { WindowsInformationService } from '../information/windows-information.service';
 import { WindowModel } from '../model/window-model';
@@ -9,7 +10,8 @@ import { WindowModel } from '../model/window-model';
 export class WindowsAPIService {
 
   constructor(private information:WindowsInformationService,
-              private startItemInformation:StartItemsInformationService){}
+              private startItemInformation:StartItemsInformationService,
+              private headerInformatin:HeaderInformationService){}
 
   getWindowById(id:string):any{
     if(this.information.windows.get(id)){
@@ -50,10 +52,12 @@ export class WindowsAPIService {
     };
     this.startItemInformation.openWindows.get(appName)?.push(window)  
     this.information.windows.set(window.windowId,window);
+    this.focusToWindow(window)
   }
   closeWindowById(id:string){
     this.removeFromOpenWindows(this.information.windows.get(id)!);
     this.information.windows.delete(id);
+    this.unFocusFromWindow();
   }
   removeFromOpenWindows(windowData:WindowModel){
     var openWindows=this.startItemInformation.openWindows.get(windowData.appName)!;
@@ -65,6 +69,7 @@ export class WindowsAPIService {
     });
   }
   focusToWindow(windowData:WindowModel){
+    this.headerInformatin.appName=windowData.appName;
     var zIndex=windowData.zIndex;
     this.information.windows.forEach(value => {
       if(value.zIndex>zIndex){
@@ -74,7 +79,7 @@ export class WindowsAPIService {
     windowData.zIndex=this.information.windows.size;
   }
   unFocusFromWindow(){
-
+    this.headerInformatin.appName="";
   }
   moveWindowToFullscreen(windowData:WindowModel){
     windowData.style["top"]="0";
@@ -136,6 +141,7 @@ export class WindowsAPIService {
   }
   hideWindow(windowData:WindowModel){
     windowData.display=false;
+    this.unFocusFromWindow();
   }
   showWindow(windowData:WindowModel){
     windowData.display=true;
@@ -208,9 +214,7 @@ export class WindowsAPIService {
       var yTaken=windowData.yTaken;
       var xMouse=$event.x-105;
       var yMouse=$event.y-40;
-      
-      this.moveWindowToDefultSize(windowData);
-      
+            
       windowData.x=xMouse-xTaken!;
       windowData.y=yMouse-yTaken!;
       

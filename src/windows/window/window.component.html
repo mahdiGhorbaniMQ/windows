@@ -23,13 +23,12 @@
                 <button class="close-button" (click)="close()">x</button>
             </div>
         </div>
-        <div class="window-body" [ngSwitch]="''">
-            <div *ngSwitchCase="'1'" class="application"></div>
-            <div *ngSwitchCase="'2'" class="application"></div>
-            <div *ngSwitchCase="'3'" class="application"></div>
-            <div *ngSwitchCase="'4'" class="application"></div>
-            <div *ngSwitchCase="'5'" class="application"></div>
-            <div *ngSwitchCase="'6'" class="application"></div>
+        <div class="window-body" [ngSwitch]="windowData.appName">
+            <app-calculator *ngSwitchCase="'calculator'" class="application"></app-calculator>
+            <app-callender *ngSwitchCase="'callender'" class="application"></app-callender>
+            <app-convertor *ngSwitchCase="'convertor'" class="application"></app-convertor>
+            <app-gallery *ngSwitchCase="'gallery'" class="application"></app-gallery>
+            <app-todo-list *ngSwitchCase="'todoList'" class="application"></app-todo-list>
         </div>
     </div>
 </div>

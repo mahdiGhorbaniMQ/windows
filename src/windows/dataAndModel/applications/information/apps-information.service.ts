@@ -8,18 +8,11 @@ export class AppsInformationService {
   apps:AppModel[]=[];
   constructor() { 
     this.apps=[
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
-      {name:""},
+      {name:"calculator"},
+      {name:"callender"},
+      {name:"convertor"},
+      {name:"gallery"},
+      {name:"todoList"}
     ]
   }
 }
